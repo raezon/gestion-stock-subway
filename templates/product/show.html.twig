@@ -1,0 +1,18 @@
+{# templates/product/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>{{ product.name }}</h1>
+	<p>Price:
+		{{ product.price }}</p>
+	<p>Image:
+		<img src="{{ asset(product.image) }}" alt="{{ product.name }}"></p>
+
+	<h2>Associations</h2>
+	<ul>
+		{% for association in product.associations %}
+			<li>{{ association.associatedType }}:
+				{{ association.associatedId }}</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
