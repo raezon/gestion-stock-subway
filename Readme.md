@@ -96,3 +96,4 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour les dé
 
 ```
 
+Ce fichier README est prêt à être utilisé dans un dépôt GitHub pour documenter l'installation, l'utilisation, et les instructions de contribution pour une application de gestion de stock basée sur Symfony. N'oubliez pas de remplacer les informations génériques (comme les URLs et les noms) par les vôtres.
