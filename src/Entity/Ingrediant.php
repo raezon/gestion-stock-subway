@@ -6,11 +6,19 @@ use App\Repository\IngrediantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Product;
 
 #[ORM\Entity(repositoryClass: IngrediantRepository::class)]
-class Ingrediant extends Product
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="ingrediant")
+ */
+class Ingrediant
 {
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -18,8 +26,14 @@ class Ingrediant extends Product
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $picture = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
 
     /**
@@ -28,9 +42,16 @@ class Ingrediant extends Product
     #[ORM\OneToMany(targetEntity: RecipeIngrediant::class, mappedBy: 'ingredient')]
     private Collection $RecipeIngrediants;
 
+    /**
+     * @var Collection<int, RecipeIngrediant>
+     */
+    #[ORM\OneToMany(targetEntity: RecipeIngrediant::class, mappedBy: 'ingrediant', orphanRemoval: true)]
+    private Collection $recipeIngrediants;
+
     public function __construct()
     {
         $this->RecipeIngrediants = new ArrayCollection();
+        $this->recipeIngrediants = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -41,6 +41,9 @@ class Product
     #[ORM\OneToMany(targetEntity: ProductAssociation::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $associations;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
@@ -125,6 +128,18 @@ class Product
                 $association->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

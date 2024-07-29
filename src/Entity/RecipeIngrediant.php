@@ -22,19 +22,24 @@ class RecipeIngrediant
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\ManyToOne(targetEntity: 'Recipe', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Recipe $Recipe = null;
 
+    #[ORM\ManyToOne(targetEntity: 'Ingrediant', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Ingrediant $ingredient = null;
+
+
 
     public function getRecipe(): ?Recipe
     {
-        return $this->recipe;
+        return $this->Recipe;
     }
 
     public function setRecipe(?Recipe $recipe): static
     {
-        $this->recipe = $recipe;
+        $this->Recipe = $recipe;
 
         return $this;
     }
@@ -90,6 +95,18 @@ class RecipeIngrediant
     public function setIngredient(?Ingrediant $ingredient): static
     {
         $this->ingredient = $ingredient;
+
+        return $this;
+    }
+
+    public function getIngrediant(): ?Ingrediant
+    {
+        return $this->ingrediant;
+    }
+
+    public function setIngrediant(?Ingrediant $ingrediant): static
+    {
+        $this->ingrediant = $ingrediant;
 
         return $this;
     }

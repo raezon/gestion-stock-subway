@@ -9,8 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Product;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
-class Recipe extends Product
+class Recipe
 {
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -18,6 +23,11 @@ class Recipe extends Product
     #[ORM\Column(length: 255)]
     private ?string $duration = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
 
     /**
@@ -26,9 +36,16 @@ class Recipe extends Product
     #[ORM\OneToMany(targetEntity: RecipeIngrediant::class, mappedBy: 'Recipe')]
     private Collection $recipeIngredients;
 
+    /**
+     * @var Collection<int, RecipeIngrediant>
+     */
+    #[ORM\OneToMany(targetEntity: RecipeIngrediant::class, mappedBy: 'recipe', orphanRemoval: true)]
+    private Collection $recipeIngrediants;
+
     public function __construct()
     {
         $this->recipeIngredients = new ArrayCollection();
+        $this->recipeIngrediants = new ArrayCollection();
     }
 
 
@@ -137,6 +154,36 @@ class Recipe extends Product
             // set the owning side to null (unless already changed)
             if ($ingredient->getRecipe() === $this) {
                 $ingredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecipeIngrediant>
+     */
+    public function getRecipeIngrediants(): Collection
+    {
+        return $this->recipeIngrediants;
+    }
+
+    public function addRecipeIngrediant(RecipeIngrediant $recipeIngrediant): static
+    {
+        if (!$this->recipeIngrediants->contains($recipeIngrediant)) {
+            $this->recipeIngrediants->add($recipeIngrediant);
+            $recipeIngrediant->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeIngrediant(RecipeIngrediant $recipeIngrediant): static
+    {
+        if ($this->recipeIngrediants->removeElement($recipeIngrediant)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeIngrediant->getRecipe() === $this) {
+                $recipeIngrediant->setRecipe(null);
             }
         }
 
