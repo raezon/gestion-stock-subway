@@ -1,3 +1,7 @@
+# Captures d'application
+
+![screencapture-localhost-8000-2024-07-31-00_58_33](https://github.com/user-attachments/assets/48de4079-5320-4be0-a977-382dd107c683)
+
 ```markdown
 # Symfony Application
 
@@ -93,6 +97,7 @@ Pour plus d'informations sur l'utilisation de Symfony, consultez la [documentati
 Si vous rencontrez des problèmes ou avez des questions, n'hésitez pas à ouvrir une issue ou à me contacter.
 
 Bon développement !
+
 ```
 
 Ce fichier `README.md` donne des instructions claires pour installer l'application Symfony, configurer les variables d'environnement, générer et exécuter les migrations, et lancer l'application. Vous pouvez adapter ce modèle en fonction des besoins spécifiques de votre projet.
