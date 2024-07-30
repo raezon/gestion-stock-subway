@@ -1,4 +1,7 @@
 ```markdown
+# Captures d'application
+![screencapture-localhost-8000-2024-07-31-00_58_33](https://github.com/user-attachments/assets/48de4079-5320-4be0-a977-382dd107c683)
+
 # Symfony Application
 
 Ce projet est une application web développée avec le framework Symfony.
