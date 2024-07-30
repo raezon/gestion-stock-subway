@@ -1,95 +1,117 @@
 ```markdown
-# Application de Gestion de Stock
+# Symfony Application
 
-## Description
-
-Cette application est un système de gestion de stock développé avec Symfony. Elle permet de gérer les produits, les ingrédients, les recettes et les quantités de stock associées. Vous pouvez ajouter, modifier et supprimer des produits, ainsi que suivre les niveaux de stock.
+Ce projet est une application web développée avec le framework Symfony.
 
 ## Prérequis
 
-Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
-
-- PHP (version 8.0 ou supérieure)
+- PHP 8.0 ou supérieur
 - Composer
-- Symfony CLI
-- MySQL (ou un autre SGBD compatible)
+- Symfony CLI (optionnel, mais recommandé)
+- Une base de données (MySQL, PostgreSQL, etc.)
 
 ## Installation
 
-1. **Clonez le dépôt :**
+1. **Cloner le dépôt :**
 
-   ```bash
-   git clone https://votre-repository-url.git
-   cd votre-dossier
+   ```sh
+   git clone https://github.com/votre-utilisateur/votre-projet.git
+   cd votre-projet
    ```
 
-2. **Installez les dépendances :**
+2. **Installer les dépendances :**
 
-   ```bash
+   ```sh
    composer install
    ```
 
-3. **Configurez votre fichier `.env` :**
+3. **Configurer les variables d'environnement :**
+   Copier le fichier `.env-example` et renommez-le en `.env` :
 
-   Copiez le fichier `.env.example` en `.env` et ajustez les paramètres de connexion à votre base de données :
-
-   ```bash
-   cp .env.example .env
+   ```sh
+   cp .env-example .env
    ```
 
-   Modifiez les variables d'environnement dans `.env` pour correspondre à votre configuration :
+   Modifier le fichier `.env` pour y ajouter les informations de connexion à votre base de données :
 
-   ```env
-   DATABASE_URL=mysql://username:password@127.0.0.1:3306/nom_de_base
+   ```dotenv
+   DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name"
    ```
 
-4. **Créez la base de données :**
+## Création des migrations
 
-   ```bash
-   php bin/console doctrine:database:create
+1. **Générer une migration :**
+
+   Si vous avez apporté des modifications à vos entités et que vous souhaitez générer une nouvelle migration :
+
+   ```sh
+   php bin/console make:migration
    ```
 
-5. **Exécutez les migrations :**
+2. **Exécuter les migrations :**
 
-   ```bash
+   Pour appliquer les migrations à la base de données :
+
+   ```sh
    php bin/console doctrine:migrations:migrate
    ```
 
-6. **Démarrez le serveur Symfony :**
+## Lancer l'application
 
-   ```bash
+1. **Démarrer le serveur de développement :**
+
+   Vous pouvez utiliser la commande Symfony CLI pour démarrer le serveur de développement :
+
+   ```sh
    symfony server:start
    ```
 
-   Ou, si vous n'avez pas Symfony CLI :
+   Ou utiliser la commande PHP intégrée :
 
-   ```bash
+   ```sh
    php -S localhost:8000 -t public
    ```
 
-## Utilisation
+2. **Accéder à l'application :**
 
-- **Ajouter un produit :** Accédez à `/produit/ajouter` pour ajouter un nouveau produit à votre inventaire.
-- **Modifier un produit :** Accédez à `/produit/modifier/{id}` pour modifier les informations d'un produit existant.
-- **Supprimer un produit :** Accédez à `/produit/supprimer/{id}` pour supprimer un produit.
-- **Voir les produits :** Accédez à `/produit/liste` pour afficher la liste des produits en stock.
+   Ouvrez votre navigateur et allez à l'adresse [http://localhost:8000](http://localhost:8000).
 
-## Contribuer
+## Utilisation des commandes Symfony
 
-Si vous souhaitez contribuer à ce projet, veuillez suivre ces étapes :
+Pour voir toutes les commandes disponibles dans Symfony, utilisez :
 
-1. **Forker le dépôt**
-2. **Créer une branche pour votre fonctionnalité :** `git checkout -b ma-fonctionnalité`
-3. **Faire des commits :** `git commit -am 'Ajouter ma fonctionnalité'`
-4. **Pousser la branche :** `git push origin ma-fonctionnalité`
-5. **Créer une pull request**
-
-## Auteurs
-
-- [Votre Nom](https://votre-site-web.com) - Développeur principal
-
-## Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour les détails.
-
+```sh
+php bin/console
 ```
+
+## Exemples de Routes
+
+Voici quelques exemples de routes définies dans le projet :
+
+- **Dashboard** : [http://localhost:8000/](http://localhost:8000/)
+  - Affiche le tableau de bord principal de l'application.
+  
+- **Product Test** : [http://localhost:8000/product/test](http://localhost:8000/product/test)
+  - Route utilisée pour créer des ingrédients et une recette à des fins de test.
+
+- **Product Show** : [http://localhost:8000/product/show/{id}](http://localhost:8000/product/show/{id})
+  - Affiche les détails d'un produit spécifique, où `{id}` est l'identifiant du produit.
+
+- **Product Buy** : [http://localhost:8000/product/buy/{id}](http://localhost:8000/product/buy/{id})
+  - Permet d'acheter un produit spécifique, où `{id}` est l'identifiant du produit.
+
+- **Logout** : [http://localhost:8000/logout](http://localhost:8000/logout)
+  - Permet de se déconnecter de l'application.
+
+## Capture d'écran
+
+Voici une capture d'écran de l'application en fonctionnement :
+
+![Capture d'écran de l'application](path/to/screenshot.png)
+
+## Documentation
+
+Pour plus d'informations sur l'utilisation de Symfony, consultez la [documentation officielle](https://symfony.com/doc/current/index.html).
+
+---
+
