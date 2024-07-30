@@ -9,72 +9,41 @@ class StorePanelService
     {
         $dumiesPanel = [
             '0' => [
-                'name' => 'Invoices',
+                'name' => 'Factures',
                 'img' => 'facture.png',
                 'url' => 'invoices'
             ],
             '1' => [
-                'name' => 'Bill payment',
+                'name' => 'Payment',
                 'img' => 'bill.png',
                 'url' => 'bill'
             ],
-
-            /*    '2' => [
-                    'name' => 'Shopping',
-                    'img' => 'goods.png',
-                    'url' => 'ingrediants'
-                ],*/
             '3' => [
-                'name' => 'Categories',
+                'name' => 'Recette',
                 'img' => 'barbecue.png',
                 'url' => 'categories'
             ],
             '4' => [
-                'name' => 'Foods',
+                'name' => 'Ingredients',
                 'img' => 'food.png',
                 'url' => 'foods'
             ],
             '5' => [
-                'name' => 'Plat',
+                'name' => 'Produit',
                 'img' => 'plat.png',
                 'url' => 'plats'
             ],
             '6' => [
-                'name' => 'Pack',
-                'img' => 'pack.png',
-                'url' => 'packs'
-            ],
-            '7' => [
-                'name' => 'Inventory management',
+                'name' => 'Gestion de Stock',
                 'img' => 'warehouse.png',
                 'url' => 'inventory'
             ],
-            /* '8' => [
-                 'name' => 'Reports',
-                 'img' => 'report.png',
-                 'url' => 'reports'
-             ],*/
-            /*  '9' => [
-                  'name' => 'Transaction',
-                  'img' => 'visa.png',
-                  'url' => 'transactions'
-              ],*/
-            '10' => [
-                'name' => 'The rooms',
-                'img' => 'store.png',
-                'url' => 'rooms'
-            ],
-            '11' => [
-                'name' => 'Customers',
-                'img' => 'specialist-user.png',
-                'url' => 'customers'
-            ],
-            '12' => [
-                'name' => 'Users',
+            '7' => [
+                'name' => 'Utilisateurs',
                 'img' => 'customer-service.png',
                 'url' => 'users'
             ],
-            '13' => [
+            '8' => [
                 'name' => 'Restaurant Settings',
                 'img' => 'settings.png',
                 'url' => 'settings'
