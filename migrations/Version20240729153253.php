@@ -20,7 +20,7 @@ final class Version20240729153253 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE ingrediant CHANGE picture picture VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE ingrediant CHANGE picture picture VARCHAR(255) NULL');
         $this->addSql('ALTER TABLE recipe_ingrediant ADD recipe_id INT NOT NULL, ADD ingrediant_id INT NOT NULL');
         $this->addSql('ALTER TABLE recipe_ingrediant ADD CONSTRAINT FK_25D856CF59D8A214 FOREIGN KEY (recipe_id) REFERENCES recipe (id)');
         $this->addSql('ALTER TABLE recipe_ingrediant ADD CONSTRAINT FK_25D856CF8AEA29A FOREIGN KEY (ingrediant_id) REFERENCES ingrediant (id)');

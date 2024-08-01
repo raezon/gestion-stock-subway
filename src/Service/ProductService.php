@@ -42,11 +42,11 @@ class ProductService
         $recipe->setUpdatedAt(new \DateTimeImmutable());
 
         foreach ($ingredients as $ingredientData) {
-            $ingredient = $this->createIngredient($ingredientData['name'], $ingredientData['quantity']);
-
+            $ingrediant = $this->createIngredient($ingredientData['name'], $ingredientData['quantity']);
+            //     dd($ingredient);
             $recipeIngredient = new RecipeIngrediant();
             $recipeIngredient->setRecipe($recipe);
-            $recipeIngredient->setIngredient($ingredient);
+            $recipeIngredient->setIngredient($ingrediant);
             $recipeIngredient->setQuantity($ingredientData['quantity']);
             $recipeIngredient->setCreatedAt(new \DateTimeImmutable());
             $recipeIngredient->setUpdatedAt(new \DateTimeImmutable());

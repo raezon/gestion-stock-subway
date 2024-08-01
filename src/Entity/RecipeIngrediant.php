@@ -28,7 +28,7 @@ class RecipeIngrediant
 
     #[ORM\ManyToOne(targetEntity: 'Ingrediant', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Ingrediant $ingredient = null;
+    private ?Ingrediant $ingrediant = null;
 
 
 
@@ -89,12 +89,12 @@ class RecipeIngrediant
 
     public function getIngredient(): ?Ingrediant
     {
-        return $this->ingredient;
+        return $this->ingrediant;
     }
 
-    public function setIngredient(?Ingrediant $ingredient): static
+    public function setIngredient(?Ingrediant $ingrediant): static
     {
-        $this->ingredient = $ingredient;
+        $this->ingrediant = $ingrediant;
 
         return $this;
     }
