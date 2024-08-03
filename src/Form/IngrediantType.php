@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class IngrediantType extends AbstractType
 {
@@ -14,7 +15,11 @@ class IngrediantType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('quantity', NumberType::class);
+            ->add('quantity', NumberType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'Soumettre',
+                'attr' => ['class' => 'btn']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
