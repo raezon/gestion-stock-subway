@@ -111,10 +111,10 @@ class ProductService
                 }
             } elseif ($association->getAssociatedType() === 'recipe') {
                 $recipe = $this->entityManager->getRepository(Recipe::class)->find($association->getAssociatedId());
-                $recipeIngredients = $this->entityManager->getRepository(RecipeIngrediant::class)->findBy(['Recipe' => $recipe]);
+                $ingredients = $this->entityManager->getRepository(RecipeIngrediant::class)->findBy(['Recipe' => $recipe]);
 
                 $enoughStock = true;
-                foreach ($recipeIngredients as $recipeIngredient) {
+                foreach ($ingredients as $recipeIngredient) {
                     $ingredient = $recipeIngredient->getIngredient();
                     $quantityNeeded = $recipeIngredient->getQuantity();
                     $ingredientQuantity = $ingredient->getQuantity();
@@ -126,7 +126,7 @@ class ProductService
                 }
 
                 if ($enoughStock) {
-                    foreach ($recipeIngredients as $recipeIngredient) {
+                    foreach ($ingredients as $recipeIngredient) {
                         $ingredient = $recipeIngredient->getIngredient();
                         $quantityNeeded = $recipeIngredient->getQuantity();
                         $ingredient->setQuantity($ingredient->getQuantity() - $quantityNeeded);

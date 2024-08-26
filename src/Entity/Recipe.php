@@ -30,11 +30,7 @@ class Recipe
     private ?\DateTimeImmutable $updated_at = null;
 
 
-    /**
-     * @var Collection<int, RecipeIngrediant>
-     */
-    #[ORM\OneToMany(targetEntity: RecipeIngrediant::class, mappedBy: 'Recipe')]
-    private Collection $recipeIngredients;
+
 
     /**
      * @var Collection<int, RecipeIngrediant>
@@ -44,30 +40,29 @@ class Recipe
 
     public function __construct()
     {
-        $this->recipeIngredients = new ArrayCollection();
-        $this->recipeIngrediants = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
 
 
 
-    public function getRecipeIngredients(): Collection
+    public function getingredients(): Collection
     {
-        return $this->recipeIngredients;
+        return $this->ingredients;
     }
 
-    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    public function addRecipeIngredient(RecipeIngrediant $recipeIngredient): static
     {
-        if (!$this->recipeIngredients->contains($recipeIngredient)) {
-            $this->recipeIngredients->add($recipeIngredient);
+        if (!$this->ingredients->contains($recipeIngredient)) {
+            $this->ingredients->add($recipeIngredient);
             $recipeIngredient->setRecipe($this);
         }
 
         return $this;
     }
 
-    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): static
+    public function removeRecipeIngredient(RecipeIngrediant $recipeIngredient): static
     {
-        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+        if ($this->ingredients->removeElement($recipeIngredient)) {
             // set the owning side to null (unless already changed)
             if ($recipeIngredient->getRecipe() === $this) {
                 $recipeIngredient->setRecipe(null);
@@ -130,35 +125,7 @@ class Recipe
         return $this;
     }
 
-    /**
-     * @return Collection<int, RecipeIngrediant>
-     */
-    public function getIngredient(): Collection
-    {
-        return $this->ingredient;
-    }
 
-    public function addIngredient(RecipeIngrediant $ingredient): static
-    {
-        if (!$this->ingredient->contains($ingredient)) {
-            $this->ingredient->add($ingredient);
-            $ingredient->setRecipe($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIngredient(RecipeIngrediant $ingredient): static
-    {
-        if ($this->ingredient->removeElement($ingredient)) {
-            // set the owning side to null (unless already changed)
-            if ($ingredient->getRecipe() === $this) {
-                $ingredient->setRecipe(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, RecipeIngrediant>
