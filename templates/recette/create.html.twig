@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<style>/* Insérez ici le CSS fourni ci-dessus */</style>{% endblock %}{% block body %}
+<h1>Créer une nouvelle Recette</h1>
+{{ form_start(form) }}
+{{ form_row(form.name) }}
+{{ form_row(form.duration) }}
+
+<div class="ingredient-collection-wrapper">
+	{{ form_label(form.ingredients) }}
+	{{ form_widget(form.ingredients) }}
+	<button type="button" class="btn btn-secondary add-ingredient-btn">Ajouter Ingredient</button>
+</div>
+
+{{ form_row(form.submit) }}
+{{ form_end(form) }}{% endblock %}

@@ -1,20 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
 
-		{% block javascripts %}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
+		<!-- Favicon -->
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+
+		<!-- External Stylesheets -->
+		{% block stylesheets %}
+			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+			<style>
+				/* Custom CSS */
+				body {
+					font-family: Arial, sans-serif;
+					background-color: #f8f9fa;
+					margin: 0;
+					padding: 20px;
+				}
+
+				.container {
+					max-width: 800px;
+					margin: 0 auto;
+					background-color: #ffffff;
+					padding: 20px;
+					border-radius: 8px;
+					box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+				}
+
+				h1 {
+					text-align: center;
+					margin-bottom: 20px;
+					color: #333;
+				}
+
+				.btn {
+					display: inline-block;
+					padding: 10px 20px;
+					font-size: 1rem;
+					color: #fff;
+					background-color: #007bff;
+					border: none;
+					border-radius: 4px;
+					cursor: pointer;
+					margin-top: 20px;
+				}
+
+				.btn:hover {
+					background-color: #0056b3;
+				}
+			</style>
 		{% endblock %}
 	</head>
 	<body>
-		{% block body %}{% endblock %}
-	</body>
-</html>
+		<div class="container"> {% block body %}{% endblock %}
+			</div>
+
+			<!-- External JavaScript -->
+			{% block javascripts %}
+				<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+				<script>
+					document.addEventListener('DOMContentLoaded', function () { // Initialize Select2 for all select elements
+$('select').select2();
+
+// Ingredient collection handling
+const collectionHolder = document.querySelector('.ingredient-collection');
+const addIngredientButton = document.querySelector('.add-ingredient-btn');
+const prototype = collectionHolder.dataset.prototype;
+let index = collectionHolder.children.length;
+
+addIngredientButton.addEventListener('click', () => {
+const newForm = prototype.replace(/__name__/g, index);
+collectionHolder.insertAdjacentHTML('beforeend', newForm);
+index++;
+// Reinitialize Select2 for new selects
+$('select').select2();
+});
+});
+				</script>
+			{% endblock %}
+		</body>
+	</html>

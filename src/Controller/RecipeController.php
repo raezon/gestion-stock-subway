@@ -18,6 +18,30 @@ class RecipeController extends AbstractController
         $this->productService = $productService;
     }
 
+    #[Route('/recipe', name: 'recipe')]
+    public function index(Request $request): Response
+    {
+        $recipe = new Recipe();
+        $form = $this->createForm(RecipeType::class, $recipe);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ingredients = $form->get('ingredients')->getData();
+
+            $this->productService->createRecipe(
+                $recipe->getName(),
+                $recipe->getDuration(),
+                $ingredients
+            );
+
+            return $this->redirectToRoute('recipe_success');
+        }
+
+        return $this->render('recette/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
     #[Route('/recipe/new', name: 'recipe_new')]
     public function new(Request $request): Response
     {
@@ -38,7 +62,7 @@ class RecipeController extends AbstractController
             return $this->redirectToRoute('recipe_success');
         }
 
-        return $this->render('create.html.twig', [
+        return $this->render('recette/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
