@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\RecipeType;
-use App\Service\ProductService;
+use App\Repository\RecipeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,65 +13,38 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecipeController extends AbstractController
 {
-    private $productService;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(ProductService $productService)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->productService = $productService;
+        $this->entityManager = $entityManager;
     }
 
-    #[Route('/recipe', name: 'recipe')]
-    public function index(Request $request): Response
-    {
-        $recipe = new Recipe();
-        $form = $this->createForm(RecipeType::class, $recipe);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $ingredients = $form->get('ingredients')->getData();
-
-            $this->productService->createRecipe(
-                $recipe->getName(),
-                $recipe->getDuration(),
-                $ingredients
-            );
-
-            return $this->redirectToRoute('recipe_success');
-        }
-
-        return $this->render('recette/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
     #[Route('/recipe/new', name: 'recipe_new')]
     public function new(Request $request): Response
     {
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
 
-        $form->handleRequest($request);
+        //$form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $ingredients = $form->get('ingredients')->getData();
+            // Persist the Recipe entity
+            $this->entityManager->persist($recipe);
 
-            $this->productService->createRecipe(
-                $recipe->getName(),
-                $recipe->getDuration(),
-                $ingredients
-            );
+            // Persist RecipeIngrediant entities if needed
+            foreach ($recipe->getIngredients() as $recipeIngredient) {
+                $recipeIngredient->setRecipe($recipe);
+                $this->entityManager->persist($recipeIngredient);
+            }
 
-            return $this->redirectToRoute('recipe_success');
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('dashboard');
         }
 
         return $this->render('recette/create.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    #[Route('/recipe/success', name: 'recipe_success')]
-    public function success(): Response
-    {
-        return $this->render('update.html.twig');
     }
 }

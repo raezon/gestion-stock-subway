@@ -27,6 +27,8 @@ class IngredientQuantityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         // No data class here as this is a collection of embedded forms
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            'validation_groups' => false, // Disable validation groups
+        ]);
     }
 }

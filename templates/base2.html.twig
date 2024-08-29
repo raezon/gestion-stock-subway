@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<!-- External Stylesheets -->
+		{% block stylesheets %}
+			<!-- Bootstrap CSS -->
+			<link
+			rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+			<!-- Select2 CSS -->
+			<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+		{% endblock %}
+	</head>
+	<body>
+		<div class="container"> {% block body %}{% endblock %}
+			</div>
+
+			<!-- External JavaScript -->
+			{% block javascripts %}
+				<!-- jQuery -->
+				<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				<!-- Bootstrap JS -->
+				<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+				<!-- Select2 JS -->
+				<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+				<script>
+					document.addEventListener('DOMContentLoaded', function () {
+$('select').select2();
+
+const collectionHolder = document.querySelector('.ingredient-collection');
+const addIngredientButton = document.querySelector('.add-ingredient-btn');
+const prototype = collectionHolder.dataset.prototype;
+let index = collectionHolder.children.length;
+
+addIngredientButton.addEventListener('click', () => {
+const newForm = prototype.replace(/__name__/g, index);
+
+const tempContainer = document.createElement('div');
+tempContainer.innerHTML = newForm;
+
+const newFormElement = tempContainer.firstChild;
+newFormElement.classList.add('row', 'p-4');
+
+collectionHolder.appendChild(newFormElement);
+
+index++;
+
+$('select').select2();
+});
+
+document.querySelector('form').addEventListener('submit', function (event) { // Collect ingredients data
+const ingredients = [];
+document.querySelectorAll('.ingredient-collection .row').forEach((row, i) => {
+const ingredientId = row.querySelector('[name$="[ingredient]"]').value;
+const quantity = row.querySelector('[name$="[quantity]"]').value;
+
+ingredients.push({ingredient: ingredientId, quantity: quantity});
+});
+
+// Place the ingredients data in a hidden field
+const ingredientsField = document.querySelector('input[name="ingredients"]');
+if (ingredientsField) {
+ingredientsField.value = JSON.stringify(ingredients);
+}
+});
+});
+				</script>
+			{% endblock %}
+		</body>
+	</html>

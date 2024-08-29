@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\RecipeIngrediantRepository;
+use App\Repository\RecipeIngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RecipeIngrediantRepository::class)]
+#[ORM\Entity(repositoryClass: RecipeIngredientRepository::class)]
 class RecipeIngrediant
 {
     #[ORM\Id]
@@ -17,32 +17,18 @@ class RecipeIngrediant
     private ?int $quantity = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Recipe', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Recipe $Recipe = null;
+    private ?Recipe $recipe = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Ingrediant', cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Ingrediant::class, inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ingrediant $ingredient = null;
-
-
-
-    public function getRecipe(): ?Recipe
-    {
-        return $this->Recipe;
-    }
-
-    public function setRecipe(?Recipe $recipe): static
-    {
-        $this->Recipe = $recipe;
-
-        return $this;
-    }
 
     public function getId(): ?int
     {
@@ -57,35 +43,41 @@ class RecipeIngrediant
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
-    public function getcreated_at(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
-
+        $this->createdAt = $createdAt;
         return $this;
     }
 
-    public function getupdated_at(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setupdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
-        $this->updated_at = $updated_at;
-
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 
+    public function getRecipe(): ?Recipe
+    {
+        return $this->recipe;
+    }
 
+    public function setRecipe(?Recipe $recipe): static
+    {
+        $this->recipe = $recipe;
+        return $this;
+    }
 
     public function getIngredient(): ?Ingrediant
     {
@@ -95,19 +87,6 @@ class RecipeIngrediant
     public function setIngredient(?Ingrediant $ingredient): static
     {
         $this->ingredient = $ingredient;
-
-        return $this;
-    }
-
-    public function getIngrediant(): ?Ingrediant
-    {
-        return $this->ingrediant;
-    }
-
-    public function setIngrediant(?Ingrediant $ingrediant): static
-    {
-        $this->ingrediant = $ingrediant;
-
         return $this;
     }
 }

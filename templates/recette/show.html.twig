@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ recipe.name }}
+{% endblock %}
+
+{% block body %}
+	<h1>{{ recipe.name }}</h1>
+	<p>Duration:
+		{{ recipe.duration }}</p>
+	<p>Created at:
+		{{ recipe.createdAt|date('Y-m-d H:i:s') }}</p>
+	<p>Last updated:
+		{{ recipe.updatedAt|date('Y-m-d H:i:s') }}</p>
+
+	<h2>Ingredients</h2>
+	<ul>
+		{% for recipeIngredient in recipe.ingredients %}
+			<li>{{ recipeIngredient.getIngredient().getName() }}
+				-
+				{{ recipeIngredient.quantity }}</li>
+		{% endfor %}
+	</ul>
+
+	<a href="{{ path('recipe_index') }}">Back to list</a>
+{% endblock %}

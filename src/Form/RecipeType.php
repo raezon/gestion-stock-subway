@@ -1,4 +1,7 @@
 <?php
+// src/Form/RecipeType.php
+// src/Form/RecipeType.php
+
 namespace App\Form;
 
 use App\Entity\Recipe;
@@ -6,8 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RecipeType extends AbstractType
@@ -15,16 +16,22 @@ class RecipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('duration', IntegerType::class)
+            ->add('name')
+            ->add('duration')
             ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientQuantityType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
+                'required' => false,
                 'by_reference' => false,
                 'label' => 'Ingredients',
-                'attr' => ['class' => 'ingredient-collection']
+                'attr' => ['class' => 'ingredient-collection'],
+                'prototype' => true,
+                'prototype_name' => '__name__',
+                'entry_options' => [
+                    'validation_groups' => false, // Disable validation for each entry
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save Recipe',
@@ -36,6 +43,7 @@ class RecipeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recipe::class,
+            'validation_groups' => ['Default'], // Overall validation groups
         ]);
     }
 }
