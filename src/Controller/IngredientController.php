@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Ingrediant;
-use App\Form\IngrediantType;
+use App\Form\IngredientType;
 use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class IngredientController extends AbstractController
     public function new(Request $request): Response
     {
         $ingredient = new Ingrediant();
-        $form = $this->createForm(IngrediantType::class, $ingredient);
+        $form = $this->createForm(IngredientType::class, $ingredient);
 
         $form->handleRequest($request);
 

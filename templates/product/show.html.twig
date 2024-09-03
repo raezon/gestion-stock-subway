@@ -10,7 +10,8 @@
 
 	<h2>Associations</h2>
 	<ul>
-		{% for association in product.associations %}
+	    // La section "Associations" affiche toutes les entités associées au produit.
+		{% for association in product.associations %} 
 			<li>{{ association.associatedType }}:
 				{{ association.associatedId }}</li>
 		{% endfor %}

@@ -1,6 +1,4 @@
 <?php
-
-// src/Service/ProductService.php
 namespace App\Service;
 
 use App\Entity\Ingrediant;
@@ -66,7 +64,6 @@ class ProductService
         $product->setName($name);
         $product->setPrice($price);
         $product->setImage($image);
-        //  $product->setType($type);
         $product->setCreatedAt(new \DateTimeImmutable());
         $product->setUpdatedAt(new \DateTimeImmutable());
 
@@ -77,6 +74,73 @@ class ProductService
         $productAssociation->setProduct($product);
         $productAssociation->setAssociatedId($associatedId);
         $productAssociation->setAssociatedType($type);
+        $productAssociation->setCreatedAt(new \DateTimeImmutable());
+        $productAssociation->setUpdatedAt(new \DateTimeImmutable());
+
+        $this->entityManager->persist($productAssociation);
+        $this->entityManager->flush();
+
+        return $product;
+    }
+
+    // Méthode pour créer un produit à partir d'une liste d'ingrédients
+    public function createProductFromIngredients(string $name, float $price, string $image, array $ingredients): Product
+    {
+        // Création du produit sans association
+        $product = new Product();
+        $product->setName($name);
+        $product->setPrice($price);
+        $product->setImage($image);
+        $product->setCreatedAt(new \DateTimeImmutable());
+        $product->setUpdatedAt(new \DateTimeImmutable());
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        // Association de chaque ingrédient avec le produit
+        foreach ($ingredients as $ingredientData) {
+            $ingredient = $this->createIngredient($ingredientData['name'], $ingredientData['quantity']);
+
+            $productAssociation = new ProductAssociation();
+            $productAssociation->setProduct($product);
+            $productAssociation->setAssociatedId($ingredient->getId());
+            $productAssociation->setAssociatedType('ingredient');
+            $productAssociation->setCreatedAt(new \DateTimeImmutable());
+            $productAssociation->setUpdatedAt(new \DateTimeImmutable());
+
+            $this->entityManager->persist($productAssociation);
+        }
+
+        $this->entityManager->flush();
+
+        return $product;
+    }
+
+    // Méthode pour créer un produit à partir d'une recette existante
+    public function createProductFromRecipe(string $name, float $price, string $image, int $recipeId): Product
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->find($recipeId);
+
+        if (!$recipe) {
+            throw new \InvalidArgumentException('Recipe not found');
+        }
+
+        // Création du produit associé à la recette
+        $product = new Product();
+        $product->setName($name);
+        $product->setPrice($price);
+        $product->setImage($image);
+        $product->setCreatedAt(new \DateTimeImmutable());
+        $product->setUpdatedAt(new \DateTimeImmutable());
+
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        // Association de la recette avec le produit
+        $productAssociation = new ProductAssociation();
+        $productAssociation->setProduct($product);
+        $productAssociation->setAssociatedId($recipe->getId());
+        $productAssociation->setAssociatedType('recipe');
         $productAssociation->setCreatedAt(new \DateTimeImmutable());
         $productAssociation->setUpdatedAt(new \DateTimeImmutable());
 

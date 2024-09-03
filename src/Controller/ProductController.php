@@ -1,8 +1,10 @@
 <?php
-
 // src/Controller/ProductController.php
+
 namespace App\Controller;
 
+use App\Form\ProductFromIngredientsType;
+use App\Form\ProductFromRecipeType;
 use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +20,7 @@ class ProductController extends AbstractController
         $this->productService = $productService;
     }
 
+    // Les méthodes existantes restent inchangées
     #[Route('/product/test', name: 'product_test')]
     public function test(): Response
     {
@@ -52,14 +55,12 @@ class ProductController extends AbstractController
             'product' => $product,
             'associations' => $associations,
         ]);
-
     }
+
     #[Route('/product/buy/{id}', name: 'product_buy')]
     public function buy(int $id): Response
     {
         $product = $this->productService->getProductById($id);
-
-
 
         if (!$product) {
             throw $this->createNotFoundException('No product found for id ' . $id);
@@ -68,5 +69,53 @@ class ProductController extends AbstractController
         $result = $this->productService->buyProduct($product);
 
         return new Response($result);
+    }
+
+    // Nouveaux ajouts pour les formulaires dynamiques
+
+    #[Route('/product/create/from-ingredients', name: 'product_create_from_ingredients')]
+    public function createFromIngredients(Request $request): Response
+    {
+        $form = $this->createForm(ProductFromIngredientsType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $product = $this->productService->createProductFromIngredients(
+                $data['name'],
+                $data['price'],
+                $data['image'],
+                $data['ingredients']
+            );
+
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+        }
+
+        return $this->render('product/create_from_ingredients.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/product/create/from-recipe', name: 'product_create_from_recipe')]
+    public function createFromRecipe(Request $request): Response
+    {
+        $form = $this->createForm(ProductFromRecipeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $product = $this->productService->createProductFromRecipe(
+                $data['name'],
+                $data['price'],
+                $data['image'],
+                $data['recipe']
+            );
+
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+        }
+
+        return $this->render('product/create_from_recipe.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
